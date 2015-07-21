@@ -12,7 +12,7 @@ import taixj.lianliankan.view.Piece;
 public class FullBoard extends AbstractBoard {
 
     @Override
-    protected List<Piece> createPieces(GameConf conf, Piece[][] pieces) {
+    public List<Piece> createPieces(GameConf conf, Piece[][] pieces) {
         List<Piece> list = new ArrayList<Piece>();
         for(int i=0;i<pieces.length;i++){
             for(int j=0;j<pieces[i].length;j++){

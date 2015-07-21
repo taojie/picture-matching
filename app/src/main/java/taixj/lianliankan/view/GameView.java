@@ -12,8 +12,10 @@ import android.view.View;
 import java.util.List;
 import java.util.jar.Attributes;
 
+import taixj.lianliankan.GameConf;
 import taixj.lianliankan.object.LinkInfo;
 import taixj.lianliankan.service.GameService;
+import taixj.lianliankan.service.GameServiceImpl;
 import taixj.lianliankan.util.ImageUtil;
 
 /**
@@ -27,6 +29,15 @@ public class GameView extends View {
     private Piece selectImage;
     private Bitmap selectPic;
 
+    public GameConf getConf() {
+        return conf;
+    }
+
+    public void setConf(GameConf conf) {
+        this.conf = conf;
+    }
+
+    private GameConf conf ;
 
     public GameView(Context context, AttributeSet attributes) {
         super(context,attributes);
@@ -34,6 +45,7 @@ public class GameView extends View {
         this.paint.setColor(Color.RED);
         this.paint.setStrokeWidth(3);
         this.selectPic = ImageUtil.getSelectImage(context);
+
 
     }
 
@@ -79,6 +91,7 @@ public class GameView extends View {
     }
 
     public void startGame() {
+        this.service = new GameServiceImpl(conf);
         this.service.start();
         this.postInvalidate();
     }

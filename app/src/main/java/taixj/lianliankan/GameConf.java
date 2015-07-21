@@ -7,12 +7,12 @@ import android.content.Context;
  */
 public class GameConf {
     private Context ctx ;
-    public static int xSize = 10;
-    public static int ySize = 10;
-    public static int beginImageX = 100;
-    public static int beginImageY = 100;
+    public static int xSize = 6;
+    public static int ySize = 8;
+    public static int beginImageX = 35;
+    public static int beginImageY = 28;
 
-    GameConf(Context ctx){
+    public GameConf(Context ctx){
         this.ctx = ctx;
     }
     public Context getContext(){

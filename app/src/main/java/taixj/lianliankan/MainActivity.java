@@ -4,7 +4,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
-
+import taixj.lianliankan.view.GameView;
 
 public class MainActivity extends ActionBarActivity {
 
@@ -12,6 +12,14 @@ public class MainActivity extends ActionBarActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        init();
+    }
+
+    public void init(){
+        GameConf conf = new GameConf(MainActivity.this);
+        GameView gameView = (GameView) findViewById(R.id.gameView);
+        gameView.setConf(conf);
+        gameView.startGame();
     }
 
     @Override

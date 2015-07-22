@@ -3,6 +3,7 @@ package taixj.lianliankan.service;
 import android.graphics.Point;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -148,13 +149,69 @@ public class GameServiceImpl implements GameService {
         }
         return null;
     }
+    //判断p2是否在p1的左上角
+    public boolean isLeftUp(Point p1,Point p2){
+        if(p2.x < p1.x && p2.y < p1.y){
+            return true;
+        }
+        return false;
+    }
+    //判断p2是否在p1的左下角
+    public boolean isLeftDown(Point p1,Point p2){
+        if(p2.x < p1.x && p2.y > p1.y){
+            return true;
+        }
+        return false;
+
+    }//判断p2是否在p1的右上角
+    public boolean isRightUp(Point p1,Point p2){
+        if(p2.x > p1.x && p2.y < p1.y){
+            return true;
+        }
+        return false;
+
+    }//判断p2是否在p1的右下角
+    public boolean isRightDown(Point p1,Point p2){
+        if(p2.x > p1.x && p2.y > p1.y){
+            return true;
+        }
+        return false;
+
+    }
+
+
+
     public Point getCornerPoint(Point p1, Point p2, int xSize, int ySize) {
+        if(isLeftDown(p1,p2) || isLeftUp(p1,p2)){
+            return getCornerPoint(p1,p2,xSize,ySize);
+        }
+        //获取p1的通道
+        List<Point> p1UpChannel = getUpChannel(p1,p2.y,ySize);
+        List<Point> p1DownChannel = getDownChannel(p1,p2.y,ySize);
+        List<Point> p1RightChannel = getRightChannel(p1,p2.x,xSize);
+
+        //获取p2的通道
+        List<Point> p2UpChannel = getUpChannel(p2,p1.y,ySize);
+        List<Point> p2DownChannel = getDownChannel(p2,p1.y,ySize);
+        List<Point> p2RightChannel = getLeftChannel(p2,p1.x,xSize);
+
+        if(isRightUp(p1,p2)){
+             Point point1 = getWrapPoint(p1RightChannel,p2DownChannel);
+             Point point2 = getWrapPoint(p1UpChannel,p2RightChannel);
+             return point1 != null ? point1 : point2;
+        }
+        if(isRightDown(p1,p2)){
+            Point point1 = getWrapPoint(p1RightChannel,p2UpChannel);
+            Point point2 = getWrapPoint(p1DownChannel,p2RightChannel);
+            return point1 != null ? point1 : point2;
+        }
 
         return null;
     }
 
     public Map<Point, Point> getLinkPoints(Point p1, Point p2, int xSize, int ySize) {
-        return null;
+        Map<Point,Point> result = new HashMap<Point,Point>();
+        return result;
     }
 
     public LinkInfo getShortTurns(Point p1, Point p2, Map<Point, Point> turns, int distance) {

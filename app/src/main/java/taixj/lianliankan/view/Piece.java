@@ -70,6 +70,7 @@ public class Piece {
     }
 
     public Point getCenter() {
-        return null;
+        Point p = new Point(getImage().getImage().getWidth()/2 + this.getBeginX(),this.getImage().getImage().getHeight()/2 + getBeginY());
+        return p;
     }
 }

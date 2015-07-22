@@ -11,6 +11,9 @@ public class GameConf {
     public static int ySize = 8;
     public static int beginImageX = 35;
     public static int beginImageY = 28;
+    public static int DEFAULT_TIME = 100 ;
+    public static int WIDTH = 72;
+    public static int HEIGHT = 72;
 
     public GameConf(Context ctx){
         this.ctx = ctx;

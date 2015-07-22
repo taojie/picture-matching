@@ -91,7 +91,6 @@ public class GameView extends View {
     }
 
     public void startGame() {
-        this.service = new GameServiceImpl(conf);
         this.service.start();
         this.postInvalidate();
     }

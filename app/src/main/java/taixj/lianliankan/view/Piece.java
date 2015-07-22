@@ -1,6 +1,8 @@
 package taixj.lianliankan.view;
 
 
+import android.graphics.Point;
+
 /**
  * Created by taoxj on 15-7-20.
  * 保存每个图片的位置信息
@@ -18,9 +20,9 @@ public class Piece {
         this.indexY = indexY;
     }
 
-    public boolean isSameImage(Piece other){
-        if(image == null){
-            if(other.image != null){
+    public boolean isSameImage(Piece other) {
+        if (image == null) {
+            if (other.image != null) {
                 return false;
             }
         }
@@ -65,5 +67,9 @@ public class Piece {
 
     public void setIndexY(int indexY) {
         this.indexY = indexY;
+    }
+
+    public Point getCenter() {
+        return null;
     }
 }

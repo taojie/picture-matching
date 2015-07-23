@@ -7,6 +7,7 @@ import android.os.Message;
 import android.os.Vibrator;
 import android.support.v7.app.ActionBarActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.MotionEvent;
@@ -25,24 +26,24 @@ import taixj.lianliankan.view.Piece;
 
 public class MainActivity extends ActionBarActivity {
 
-    private GameConf conf;  //ÓÎÏ·ÅäÖÃ¶ÔÏó
-    private GameService service ; //ÓÎÏ·ÒµÎñÂß¼­½Ó¿Ú
-    private GameView  gameView; //ÓÎÏ·½çÃæ
-    private Button startButton; //¿ªÊ¼°´Å¥
-    private TextView timerText ; //¼ÇÂ¼ÓÎÏ·µÄÊ£ÓàÊ±¼ä
-    private AlertDialog.Builder failDialog; //Ê§°Üµ¯³ö¿ò
-    private AlertDialog.Builder successDialog; //³É¹¦µ¯³ö¿ò
-    private Timer timer =  new Timer(); //¶¨Ê±Æ÷
-    private int gameTime; //ÓÎÏ·Ê£ÓàÊ±¼ä
-    private boolean isPlaying;//ÊÇ·ñ´¦ÓÚÓÎÏ·×´Ì¬
-    private Vibrator vibrator; //Õğ¶¯´¦ÀíÀà
+    private GameConf conf;  // æ¸¸æˆé…ç½®æ–‡ä»¶ï¿½ï¿½
+    private GameService service ; //ï¿½ï¿½Ï·Òµï¿½ï¿½ï¿½ß¼ï¿½ï¿½Ó¿ï¿½
+    private GameView  gameView; //ï¿½ï¿½Ï·ï¿½ï¿½ï¿½ï¿½
+    private Button startButton; //ï¿½ï¿½Ê¼ï¿½ï¿½Å¥
+    private TextView timerText ; //ï¿½ï¿½Â¼ï¿½ï¿½Ï·ï¿½ï¿½Ê£ï¿½ï¿½Ê±ï¿½ï¿½
+    private AlertDialog.Builder failDialog; //Ê§ï¿½Üµï¿½ï¿½ï¿½ï¿½ï¿½
+    private AlertDialog.Builder successDialog; //ï¿½É¹ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
+    private Timer timer =  new Timer(); //ï¿½ï¿½Ê±ï¿½ï¿½
+    private int gameTime; //ï¿½ï¿½Ï·Ê£ï¿½ï¿½Ê±ï¿½ï¿½
+    private boolean isPlaying;//ï¿½Ç·ï¿½ï¿½ï¿½ï¿½ï¿½Ï·×´Ì¬
+    private Vibrator vibrator; //ï¿½ğ¶¯´ï¿½ï¿½ï¿½ï¿½ï¿½
     private Piece selected = null;
     private Handler handler = new Handler(){
         @Override
         public void handleMessage(Message msg) {
             switch (msg.what){
                 case 0x123 :
-                    timerText.setText("Ê£ÓàÊ±¼ä£º" + gameTime);
+                    timerText.setText("å‰©ä½™æ—¶é—´ï¼š" + gameTime);
                     gameTime--;
                     if(gameTime < 0){
                         stopTimer();
@@ -56,7 +57,7 @@ public class MainActivity extends ActionBarActivity {
     };
 
     public void stopTimer(){
-        timer.cancel();
+        this.timer.cancel();
         this.timer = null;
     }
 
@@ -88,7 +89,14 @@ public class MainActivity extends ActionBarActivity {
 
 
 
-        successDialog = new AlertDialog.Builder(this).setTitle("Success").setMessage("ÓÎÏ·Ê¤Àû£¬ÖØĞÂ¿ªÊ¼").setPositiveButton("È·¶¨",new DialogInterface.OnClickListener(){
+        successDialog = new AlertDialog.Builder(this).setTitle("Success").setMessage("æ¸¸æˆèƒœåˆ©ï¼Œé‡æ–°å¼€å§‹").setPositiveButton("ç¡®å®š",new DialogInterface.OnClickListener(){
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                startGame(GameConf.DEFAULT_TIME);
+            }
+        });
+
+        failDialog = new AlertDialog.Builder(this).setTitle("Fail").setMessage("æ¸¸æˆå¤±è´¥ï¼Œé‡æ–°å¼€å§‹").setPositiveButton("ç¡®å®š",new DialogInterface.OnClickListener(){
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 startGame(GameConf.DEFAULT_TIME);
@@ -116,17 +124,17 @@ public class MainActivity extends ActionBarActivity {
             stopTimer();
         }
         this.gameTime = time;
-        Timer timer = new Timer();
+        this.timer = new Timer();
         if(this.gameTime == GameConf.DEFAULT_TIME){
             this.gameView.startGame();
         }
 
-        timer.schedule(new TimerTask() {
+        timer.schedule(new TimerTask() {   //å®šæ—¶å™¨çš„ä½¿ç”¨
             @Override
             public void run() {
                handler.sendEmptyMessage(0x123);
             }
-        },1000);
+        },0,1000);
         this.selected = null;
     }
 
@@ -135,6 +143,7 @@ public class MainActivity extends ActionBarActivity {
         float touchX = e.getX();
         float touchY = e.getY();
         Piece current = service.findPiece(touchX,touchY);
+      //  Log.e("lianliankan","current -----  X:" + current.getIndexX() + "; Y:" + current.getIndexY());
         if(current == null){
             return ;
         }
@@ -144,7 +153,10 @@ public class MainActivity extends ActionBarActivity {
             this.gameView.postInvalidate();
             return;
         }
+      //  Log.e("lianliankan","select ----- X:" + current.getIndexX() + "; Y:" + current.getIndexY());
         if(this.selected != null){
+            Log.e("lianliankan","current -----  X:" + current.getIndexX() + "; Y:" + current.getIndexY());
+            Log.e("lianliankan","select ----- X:" + this.selected.getIndexX() + "; Y:" + this.selected.getIndexY());
             LinkInfo linkInfo = this.service.link(this.selected,current);
             if(linkInfo == null){
                 this.selected = current;

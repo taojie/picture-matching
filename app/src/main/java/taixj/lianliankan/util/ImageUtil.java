@@ -19,7 +19,7 @@ import taixj.lianliankan.view.PieceImage;
 public class ImageUtil {
     private static List<Integer> imageValues = getImageValues();
 
-    //»ñÈ¡ËùÓÐµÄÍ¼Æ¬
+    //ï¿½ï¿½È¡ï¿½ï¿½ï¿½Ðµï¿½Í¼Æ¬
     public static List<Integer> getImageValues() {
         List<Integer> list = new ArrayList<Integer>();
         Field[] fields = R.mipmap.class.getFields();
@@ -34,7 +34,7 @@ public class ImageUtil {
         return list;
     }
 
-    //»ñÈ¡±»Ñ¡ÖÐµÄÍ¼Æ¬
+    //ï¿½ï¿½È¡ï¿½ï¿½Ñ¡ï¿½Ðµï¿½Í¼Æ¬
     public static Bitmap getSelectImage(Context ctx) {
         Bitmap image = BitmapFactory.decodeResource(ctx.getResources(), R.mipmap.selected);
         return image;
@@ -42,7 +42,7 @@ public class ImageUtil {
 
     public static List<Integer> getRandomImages(List<Integer> values, int size) {
         List<Integer> list = new ArrayList<Integer>();
-        Random random = new Random();  //´´½¨Ëæ»úÊýÉú³ÉÆ÷
+        Random random = new Random();  //ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½
         try{
         for (int i = 0; i < size; i++) {
             int r = random.nextInt(values.size());
@@ -59,8 +59,8 @@ public class ImageUtil {
             size =+ 1;
         }
         List<Integer> result = getRandomImages(imageValues,size/2);
-        result.addAll(result); //Ôö¼ÓÒ»±¶
-        Collections.shuffle(result);  //Ëæ»úÏ´ÅÆ
+        result.addAll(result); //ï¿½ï¿½ï¿½ï¿½Ò»ï¿½ï¿½
+        Collections.shuffle(result);  //ï¿½ï¿½ï¿½Ï´ï¿½ï¿½
         return result;
 
     }

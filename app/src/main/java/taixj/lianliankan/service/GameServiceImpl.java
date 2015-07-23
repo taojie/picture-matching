@@ -51,7 +51,7 @@ public class GameServiceImpl implements GameService {
 
     @Override
     public LinkInfo link(Piece p1, Piece p2) {
-        //Í¬Ò»¸öÎ»ÖÃµÄÍ¼Æ¬
+        //Í¬Ò»ï¿½ï¿½Î»ï¿½Ãµï¿½Í¼Æ¬
         if (p1.equals(p2)) {
             return null;
         }
@@ -63,24 +63,24 @@ public class GameServiceImpl implements GameService {
         }
         Point point1 = p1.getCenter();
         Point point2 = p2.getCenter();
-        //Í¬Ò»ĞĞ
+        //Í¬Ò»ï¿½ï¿½
         if (p1.getIndexY() == p2.getIndexY()) {
             if (!isXBlock(point1, point2, GameConf.WIDTH)) {
                 return new LinkInfo(point1, point2);
             }
         }
-        //Í¬Ò»ÁĞ
+        //Í¬Ò»ï¿½ï¿½
         if (p1.getIndexX() == p2.getIndexX()) {
             if (!isYBlock(point1, point2, GameConf.HEIGHT)) {
                 return new LinkInfo(point1, point2);
             }
         }
-        //Ò»¸ö×ªÕÛµã
+        //Ò»ï¿½ï¿½×ªï¿½Ûµï¿½
         Point cornerPoint = getCornerPoint(point1, point2, GameConf.WIDTH, GameConf.HEIGHT);
         if (cornerPoint != null) {
             return new LinkInfo(point1, cornerPoint, point2);
         }
-        //Á½¸ö×ªÕÛµã
+        //ï¿½ï¿½ï¿½ï¿½×ªï¿½Ûµï¿½
         Map<Point, Point> turns = getLinkPoints(point1, point2, GameConf.WIDTH, GameConf.HEIGHT);
         if (turns.size() != 0) {
             return getShortTurns(point1, point2, turns, getDistance(point1, point2));
@@ -110,10 +110,10 @@ public class GameServiceImpl implements GameService {
         return index;
     }
 
-    //X·½ÏòÊÇ·ñÓĞÕÏ°­
+    //Xï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
     public boolean isXBlock(Point p1, Point p2, int size) {
         if(p2.x < p1.x){
-            return isXBlock(p2,p1,size);
+            return isXBlock(p2, p1, size);
         }
         for(int i = p1.x + size;i < p2.x;i = i + size){
            if(hasPiece(i,p1.y)){
@@ -123,10 +123,10 @@ public class GameServiceImpl implements GameService {
         return false;
     }
 
-    //Y·½ÏòÊÇ·ñÓĞÕÏ°­
+    //Yï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½ï¿½Ï°ï¿½
     public boolean isYBlock(Point p1, Point p2, int size) {
         if(p2.y < p1.y){
-            return isXBlock(p2,p1,size);
+            return isYBlock(p2, p1, size);
         }
         for(int i = p1.y + size;i < p2.y;i = i + size){
             if(hasPiece(p1.x,i)){
@@ -149,28 +149,28 @@ public class GameServiceImpl implements GameService {
         }
         return null;
     }
-    //ÅĞ¶Ïp2ÊÇ·ñÔÚp1µÄ×óÉÏ½Ç
+    //ï¿½Ğ¶ï¿½p2ï¿½Ç·ï¿½ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
     public boolean isLeftUp(Point p1,Point p2){
         if(p2.x < p1.x && p2.y < p1.y){
             return true;
         }
         return false;
     }
-    //ÅĞ¶Ïp2ÊÇ·ñÔÚp1µÄ×óÏÂ½Ç
+    //ï¿½Ğ¶ï¿½p2ï¿½Ç·ï¿½ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
     public boolean isLeftDown(Point p1,Point p2){
         if(p2.x < p1.x && p2.y > p1.y){
             return true;
         }
         return false;
 
-    }//ÅĞ¶Ïp2ÊÇ·ñÔÚp1µÄÓÒÉÏ½Ç
+    }//ï¿½Ğ¶ï¿½p2ï¿½Ç·ï¿½ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Ï½ï¿½
     public boolean isRightUp(Point p1,Point p2){
         if(p2.x > p1.x && p2.y < p1.y){
             return true;
         }
         return false;
 
-    }//ÅĞ¶Ïp2ÊÇ·ñÔÚp1µÄÓÒÏÂ½Ç
+    }//ï¿½Ğ¶ï¿½p2ï¿½Ç·ï¿½ï¿½ï¿½p1ï¿½ï¿½ï¿½ï¿½ï¿½Â½ï¿½
     public boolean isRightDown(Point p1,Point p2){
         if(p2.x > p1.x && p2.y > p1.y){
             return true;
@@ -185,24 +185,24 @@ public class GameServiceImpl implements GameService {
         if(isLeftDown(p1,p2) || isLeftUp(p1,p2)){
             return getCornerPoint(p1,p2,xSize,ySize);
         }
-        //»ñÈ¡p1µÄÍ¨µÀ
+        //è·å–p1çš„é€šé“Í¨ï¿½ï¿½
         List<Point> p1UpChannel = getUpChannel(p1,p2.y,ySize);
         List<Point> p1DownChannel = getDownChannel(p1,p2.y,ySize);
-        List<Point> p1RightChannel = getRightChannel(p1,p2.x,xSize);
+        List<Point> p1RightChannel = getRightChannel(p1, p2.x, xSize);
 
-        //»ñÈ¡p2µÄÍ¨µÀ
+        //è·å–p2çš„é€šé“
         List<Point> p2UpChannel = getUpChannel(p2,p1.y,ySize);
         List<Point> p2DownChannel = getDownChannel(p2,p1.y,ySize);
-        List<Point> p2RightChannel = getLeftChannel(p2,p1.x,xSize);
+        List<Point> p2LeftChannel = getLeftChannel(p2,p1.x,xSize);
 
         if(isRightUp(p1,p2)){
              Point point1 = getWrapPoint(p1RightChannel,p2DownChannel);
-             Point point2 = getWrapPoint(p1UpChannel,p2RightChannel);
+             Point point2 = getWrapPoint(p1UpChannel,p2LeftChannel);
              return point1 != null ? point1 : point2;
         }
         if(isRightDown(p1,p2)){
             Point point1 = getWrapPoint(p1RightChannel,p2UpChannel);
-            Point point2 = getWrapPoint(p1DownChannel,p2RightChannel);
+            Point point2 = getWrapPoint(p1DownChannel,p2LeftChannel);
             return point1 != null ? point1 : point2;
         }
 
@@ -211,76 +211,227 @@ public class GameServiceImpl implements GameService {
 
     public Map<Point, Point> getLinkPoints(Point p1, Point p2, int xSize, int ySize) {
         Map<Point,Point> result = new HashMap<Point,Point>();
+
+        //è·å–p1çš„é€šé“Í¨ï¿½ï¿½
+        List<Point> p1UpChannel = getUpChannel(p1,p2.y,ySize);
+        List<Point> p1DownChannel = getDownChannel(p1,p2.y,ySize);
+        List<Point> p1RightChannel = getRightChannel(p1,p2.x,xSize);
+
+        //è·å–p2çš„é€šé“
+        List<Point> p2UpChannel = getUpChannel(p2,p1.y,ySize);
+        List<Point> p2DownChannel = getDownChannel(p2, p1.y, ySize);
+        List<Point> p2LeftChannel = getLeftChannel(p2, p1.x, xSize);
+
+        //è·å–boardçš„æœ€å¤§å®½é«˜
+        int maxWidth = (GameConf.xSize + 1)* xSize + GameConf.beginImageX;
+        int maxHeight = (GameConf.ySize + 1 ) * ySize + GameConf.beginImageY;
+
+        if(isLeftDown(p1,p2) || isLeftUp(p1,p2)){
+            return getLinkPoints(p1,p2,xSize,ySize);
+        }
+
+        //p1 å’Œ p2 ä½äºåŒä¸€è¡Œ
+        if(p1.y == p2.y){
+            p1UpChannel = getUpChannel(p1,0,ySize);
+            p2UpChannel = getUpChannel(p2,0,ySize);
+            Map<Point,Point> upResult = getXLinkPoint(p1UpChannel, p2UpChannel, xSize);
+
+            p1DownChannel = getDownChannel(p1, maxHeight, ySize);
+            p2DownChannel = getDownChannel(p2, maxHeight, ySize);
+            Map<Point,Point> downResult = getXLinkPoint(p1DownChannel,p2DownChannel,xSize);
+            result.putAll(upResult);
+            result.putAll(downResult);
+          }
+        //p1å’Œ p2ä½äºåŒä¸€åˆ—
+        if(p1.x == p2.x){
+            p1RightChannel = getRightChannel(p1,maxWidth,xSize);
+            List<Point> p2RightChannel = getRightChannel(p2,maxWidth,xSize);
+            Map<Point,Point> rightResult = getYLinkPoint(p1RightChannel, p2RightChannel, ySize);
+            List<Point> p1LeftChannel = getLeftChannel(p1, 0, xSize);
+            p2LeftChannel = getLeftChannel(p2,0,xSize);
+            Map<Point,Point> leftResult = getYLinkPoint(p1LeftChannel, p2LeftChannel, ySize);
+            result.putAll(rightResult);
+            result.putAll(leftResult);
+        }
+        //p2ä½äº p1 å³ä¸Šè§’
+        if(isRightUp(p1,p2)){
+            //p1å‘ä¸Šp2å‘ä¸‹çš„è¿çº¿
+            Map<Point,Point> udResult = getXLinkPoint(p1UpChannel, p2DownChannel, xSize);
+            //p1å‘å³ p2å‘å·¦
+            Map<Point,Point> rlResult = getYLinkPoint(p1RightChannel, p2LeftChannel, ySize);
+            //p1å‘ä¸Š p2å‘ä¸Š
+            p1UpChannel = getUpChannel(p1,0,ySize);
+            p2UpChannel = getUpChannel(p2,0,ySize);
+            Map<Point,Point> uuResult = getXLinkPoint(p1UpChannel, p2UpChannel, xSize);
+            //p1å‘ä¸‹ p2å‘ä¸‹
+            p1DownChannel = getDownChannel(p1, maxHeight, ySize);
+            p2DownChannel = getDownChannel(p2, maxHeight, ySize);
+            Map<Point,Point> ddResult = getXLinkPoint(p1DownChannel, p2DownChannel, xSize);
+            //p1å‘å³ p2å‘å³
+            p1RightChannel = getRightChannel(p1, maxWidth, xSize);
+            List<Point> p2RightChannel = getRightChannel(p2, maxWidth, xSize);
+            Map<Point,Point> rrResult = getYLinkPoint(p1RightChannel, p2RightChannel, ySize);
+            //p1å‘å·¦ p2å‘å·¦
+            List<Point> p1LeftChannel = getLeftChannel(p1, 0, xSize);
+            p2LeftChannel = getLeftChannel(p2,0,xSize);
+            Map<Point,Point> llResult = getYLinkPoint(p1LeftChannel, p2LeftChannel, ySize);
+
+            result.putAll(llResult);
+            result.putAll(rrResult);
+            result.putAll(ddResult);
+            result.putAll(rlResult);
+            result.putAll(uuResult);
+            result.putAll(udResult);
+
+        }
+        //p2ä½äºp1å³ä¸‹è§’
+        if(isRightDown(p1,p2)){
+            //p1å‘ä¸‹p2å‘ä¸Šçš„è¿çº¿
+            Map<Point,Point> udResult = getXLinkPoint(p1DownChannel, p2UpChannel, xSize);
+            //p1å‘å³ p2å‘å·¦
+            Map<Point,Point> rlResult = getYLinkPoint(p1RightChannel, p2LeftChannel, ySize);
+            //p1å‘ä¸Š p2å‘ä¸Š
+            p1UpChannel = getUpChannel(p1,0,ySize);
+            p2UpChannel = getUpChannel(p2,0,ySize);
+            Map<Point,Point> uuResult = getXLinkPoint(p1UpChannel, p2UpChannel, xSize);
+            //p1å‘ä¸‹ p2å‘ä¸‹
+            p1DownChannel = getDownChannel(p1, maxHeight, ySize);
+            p2DownChannel = getDownChannel(p2, maxHeight, ySize);
+            Map<Point,Point> ddResult = getXLinkPoint(p1DownChannel, p2DownChannel, xSize);
+            //p1å‘å³ p2å‘å³
+            p1RightChannel = getRightChannel(p1, maxWidth, xSize);
+            List<Point> p2RightChannel = getRightChannel(p2, maxWidth, xSize);
+            Map<Point,Point> rrResult = getYLinkPoint(p1RightChannel, p2RightChannel, ySize);
+            //p1å‘å·¦ p2å‘å·¦
+            List<Point> p1LeftChannel = getLeftChannel(p1, 0, xSize);
+            p2LeftChannel = getLeftChannel(p2,0,xSize);
+            Map<Point,Point> llResult = getYLinkPoint(p1LeftChannel, p2LeftChannel, ySize);
+
+            result.putAll(llResult);
+            result.putAll(rrResult);
+            result.putAll(ddResult);
+            result.putAll(rlResult);
+            result.putAll(uuResult);
+            result.putAll(udResult);
+        }
+
+
+        return result;
+    }
+
+    public Map<Point,Point> getXLinkPoint(List<Point> p1,List<Point> p2,int width){
+        Map<Point,Point> result = new HashMap<Point,Point>();
+        for(int i=0;i<p1.size();i++){
+            Point temp1 = p1.get(i);
+            for(int j=0;j < p2.size();j++){
+                Point temp2 = p2.get(j);
+                if(temp1.y == temp2.y){
+                    if(!isXBlock(temp1, temp2, width));
+                    result.put(temp1,temp2);
+                }
+            }
+        }
+        return result;
+    }
+    public Map<Point,Point> getYLinkPoint(List<Point> p1,List<Point> p2,int height){
+        Map<Point,Point> result = new HashMap<Point,Point>();
+        for(int i=0;i<p1.size();i++){
+            Point temp1 = p1.get(i);
+            for(int j=0;j < p2.size();j++){
+                Point temp2 = p2.get(j);
+                if(temp1.x == temp2.x){
+                    if(!isYBlock(temp1, temp2, height));
+                    result.put(temp1,temp2);
+                }
+            }
+        }
         return result;
     }
 
     public LinkInfo getShortTurns(Point p1, Point p2, Map<Point, Point> turns, int distance) {
-        return null;
+        List<LinkInfo> links = new ArrayList<LinkInfo>();
+        for(Point point1 : turns.keySet()){
+            Point point2 = turns.get(point1);
+            links.add(new LinkInfo(p1,point1,point2,p2));
+        }
+        return getShortCut(links,distance);
     }
 
-    public int getDistance(Point p1, Point p2) {
-        return -1;
+    //è·å–æœ€çŸ­çš„è¿çº¿
+    public LinkInfo getShortCut(List<LinkInfo> links,int distance){
+        LinkInfo result = null;
+        int temp = 0;
+        for(int i=0;i<links.size();i++){
+            LinkInfo info = links.get(i);
+            int dis = countAll(info.getLinkedPoints());
+            if( i == 0){
+                temp = dis - distance ;
+                result = info;
+            }
+            if((dis - distance) < temp){
+                temp = dis - distance;
+                result = info;
+            }
+        }
+        return result;
     }
 
-    //·µ»ØpointµÄ×ó±ßÍ¨µÀ
+    //ï¿½ï¿½ï¿½ï¿½pointï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
     public List<Point> getLeftChannel(Point p, int min, int width) {
         List<Point> result = new ArrayList<Point>();
         for (int i = p.x - width; i >= min; ) {
             if (hasPiece(i, p.y)) {
                 return result;
             }
-            i = i - width;
             result.add(new Point(i,p.y));
-
+            i = i - width;
         }
         return result;
     }
 
-    //·µ»ØpointµÄ×ó±ßÍ¨µÀ
+    //ï¿½ï¿½ï¿½ï¿½pointï¿½ï¿½ï¿½ï¿½ï¿½Í¨ï¿½ï¿½
     public List<Point> getRightChannel(Point p, int max, int width) {
         List<Point> result = new ArrayList<Point>();
         for (int i = p.x + width; i <= max; ) {
             if (hasPiece(i, p.y)) {
                 return result;
             }
-            i = i + width;
             result.add(new Point(i,p.y));
+            i = i + width;
 
         }
         return result;
     }
 
-    //·µ»ØpointµÄÉÏ±ßÍ¨µÀ
+    //ï¿½ï¿½ï¿½ï¿½pointï¿½ï¿½ï¿½Ï±ï¿½Í¨ï¿½ï¿½
     public List<Point> getUpChannel(Point p, int min, int height) {
         List<Point> result = new ArrayList<Point>();
         for (int i = p.y - height; i >= min; ) {
             if (hasPiece(p.x,i)) {
                 return result;
             }
-            i = i - height;
             result.add(new Point(p.x,i));
-
+            i = i - height;
         }
         return result;
     }
 
 
-    //·µ»ØpointµÄÏÂ±ßÍ¨µÀ
+    //ï¿½ï¿½ï¿½ï¿½pointï¿½ï¿½ï¿½Â±ï¿½Í¨ï¿½ï¿½
     public List<Point> getDownChannel(Point p, int max, int height) {
         List<Point> result = new ArrayList<Point>();
         for (int i = p.y + height; i <= max; ) {
             if (hasPiece( p.x,i)) {
                 return result;
             }
-            i = i + height;
             result.add(new Point(p.x,i));
-
+            i = i + height;
         }
         return result;
     }
 
 
-    //Ä³¸öµãÊÇ·ñÓĞÍ¼Æ¬
+    //Ä³ï¿½ï¿½ï¿½ï¿½ï¿½Ç·ï¿½ï¿½ï¿½Í¼Æ¬
     public boolean hasPiece(int x, int y) {
         if (findPiece((float) x, (float) y) == null)
         {
@@ -289,4 +440,19 @@ public class GameServiceImpl implements GameService {
         return true;
     }
 
+    //è®¡ç®—2ç‚¹ä¹‹é—´çš„è·ç¦»
+    public int getDistance (Point p1,Point p2){
+        return Math.abs(p1.x - p2.x) + Math.abs(p1.y-p2.y);
+    }
+
+    //è®¡ç®—æ‰€æœ‰ç‚¹çš„è·ç¦»å’Œ
+    public int countAll(List<Point> points){
+        int result = 0;
+        for(int i = 0 ;i < points.size() -1; i++){
+            Point p1 = points.get(i);
+            Point p2 = points.get(i+1);
+            result += getDistance(p1,p2);
+        }
+        return result;
+    }
 }

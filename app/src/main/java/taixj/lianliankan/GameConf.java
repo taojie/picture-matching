@@ -10,7 +10,7 @@ public class GameConf {
     public static int xSize = 6;
     public static int ySize = 8;
     public static int beginImageX = 35;
-    public static int beginImageY = 28;
+    public static int beginImageY = 35;
     public static int DEFAULT_TIME = 100 ;
     public static int WIDTH = 64;
     public static int HEIGHT = 64;
